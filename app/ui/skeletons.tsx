@@ -113,23 +113,23 @@ export function TableRowSkeleton() {
         </div>
       </td>
       {/* Email */}
-      <td className="whitespace-nowrap px-3 py-3">
+      <td className="whitespace-nowrap px-3 pt-3 pb-[11.6px]">
         <div className="h-6 w-32 rounded bg-gray-100"></div>
       </td>
       {/* Amount */}
-      <td className="whitespace-nowrap px-3 py-3">
+      <td className="whitespace-nowrap px-3 pt-3 pb-[11.6px]">
         <div className="h-6 w-16 rounded bg-gray-100"></div>
       </td>
       {/* Date */}
-      <td className="whitespace-nowrap px-3 py-3">
+      <td className="whitespace-nowrap px-3 pt-3 pb-[11.6px]">
         <div className="h-6 w-16 rounded bg-gray-100"></div>
       </td>
       {/* Status */}
-      <td className="whitespace-nowrap px-3 py-3">
+      <td className="whitespace-nowrap px-3 pt-3 pb-[11.6px]">
         <div className="h-6 w-16 rounded bg-gray-100"></div>
       </td>
       {/* Actions */}
-      <td className="whitespace-nowrap py-3 pl-6 pr-3">
+      <td className="whitespace-nowrap pt-3 pb-[11.6px] pl-6 pr-3">
         <div className="flex justify-end gap-3">
           <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
           <div className="h-[38px] w-[38px] rounded bg-gray-100"></div>
