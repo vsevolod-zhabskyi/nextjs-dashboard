@@ -12,9 +12,9 @@ export type State = {
     status?: string[];
   },
   values?: {
-    customerId?: string;
-    amount?: string;
-    status?: string;
+    customerId?: string | null;
+    amount?: string | null;
+    status?: string | null;
   },
   message?: string | null;
 }
@@ -38,12 +38,15 @@ const FormSchema = z.object({
 const CreateInvoice = FormSchema.omit({id: true, date: true})
 
 export async function createInvoice(prevState: State, formData: FormData) {
-  const validatedFields = CreateInvoice.safeParse({
-    customerId: formData.get('customerId'),
-    amount: formData.get('amount'),
-    status: formData.get('status'),
-  })
+  const rawCustomerId = formData.get('customerId');
+  const rawAmount = formData.get('amount');
+  const rawStatus = formData.get('status');
 
+  const validatedFields = CreateInvoice.safeParse({
+    customerId: rawCustomerId,
+    amount: rawAmount,
+    status: rawStatus,
+  });
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
@@ -51,17 +54,17 @@ export async function createInvoice(prevState: State, formData: FormData) {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing fields. Failed to create invoice.',
       values: {
-        customerId: formData.get('customerId'),
-        amount: formData.get('amount'),
-        status: formData.get('status'),
-      }
-    }
+        customerId: typeof rawCustomerId === 'string' ? rawCustomerId : null,
+        amount: typeof rawAmount === 'string' ? rawAmount : null,
+        status: typeof rawStatus === 'string' ? rawStatus : null,
+      },
+    };
   }
 
   // Prepare data for insertion into the database
   const { customerId, amount, status } = validatedFields.data;
   const amountInCents = amount * 100;
-  const date = new Date().toISOString().split('T')[0]
+  const date = new Date().toISOString().split('T')[0];
 
   // Insert data into the database
   try {
@@ -70,10 +73,10 @@ export async function createInvoice(prevState: State, formData: FormData) {
       VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
     `;
   } catch (e) {
-    console.error(e)
+    console.error(e);
     return {
-      message: 'Database Error: Failed to create invoice'
-    }
+      message: 'Database Error: Failed to create invoice',
+    };
   }
 
   revalidatePath('/dashboard/invoices');
